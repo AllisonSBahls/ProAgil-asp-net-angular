@@ -17,7 +17,7 @@ namespace ProAgil.Repository
          Task<Event> GetEventByIdAsync(int EventId, bool includeSpeaker);
          
         //Speaker
-        Task<Event[]> GetAllSpeakerByNameAsync(bool includeSpeaker);
-        Task<Event[]> GetSpeakerAsync(int Speaker, bool includeSpeaker);
+        Task<Speaker[]> GetAllSpeakerByNameAsync(string name, bool includeEvents);
+        Task<Speaker> GetSpeakerAsync(int SpeakerId, bool includeEvents);
     }
 }

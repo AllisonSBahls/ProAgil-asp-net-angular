@@ -37,53 +37,92 @@ namespace ProAgil.Repository
         }
 
         //Eventos
-        public Task<Event[]> GetAllEventsAsync(bool? includeSpeaker)
+        public async Task<Event[]> GetAllEventsAsync(bool includeSpeaker = false)
         {
-            var query = _context.Events.Include(c => c.Lots);
+            IQueryable<Event> query = _context.Events
+            .Include(c => c.Lots)
+            .Include(c => c.SocialNetworks);
+            
+            if (includeSpeaker)
+            {
+                query = query
+                .Include(se => se.SpeakerEvents)
+                .ThenInclude(s => s.Speaker);
+            }
+            
+            query = query.OrderByDescending(c => c.DateEvent);
+            return await query.ToArrayAsync();
         }
 
-        public Task<Event[]> GetAllEventsByThemeAsync(string theme, bool includeSpeaker)
+        public async Task<Event[]> GetAllEventsByThemeAsync(string theme, bool includeSpeaker = false)
         {
-            throw new System.NotImplementedException();
-        }
-        Task<Event[]> IProAgilRepository.GetAllEventsByThemeAsync(string theme, bool includeSpeaker)
-        {
-            throw new System.NotImplementedException();
-        }
+            IQueryable<Event> query = _context.Events
+            .Include(c => c.Lots)
+            .Include(c => c.SocialNetworks);
 
-        Task<Event[]> IProAgilRepository.GetAllEventsAsync(bool includeSpeaker)
-        {
-            throw new System.NotImplementedException();
-        }
-        public Task<Event> GetEventByIdAsync(int EventId, bool includeSpeaker)
-        {
-            throw new System.NotImplementedException();
-        }
+            if (includeSpeaker)
+            {
+                query = query
+                .Include(se => se.SpeakerEvents)
+                .ThenInclude(s => s.Speaker);
+            }
+            query = query
+            .OrderByDescending(c => c.DateEvent)
+            .Where(c => c.Theme.ToLower().Contains(theme.ToLower()));
 
-        //Palestrantes
-        public Task<Event[]> GetSpeakerAsync(int Speaker, bool includeSpeaker)
-        {
-            throw new System.NotImplementedException();
-        }
-        public Task<Event[]> GetAllSpeakerByNameAsync(bool includeSpeaker)
-        {
-            throw new System.NotImplementedException();
+            return await query.ToArrayAsync();
         }
         
 
-        Task<Event> IProAgilRepository.GetEventByIdAsync(int EventId, bool includeSpeaker)
+        public async Task<Event> GetEventByIdAsync(int EventId, bool includeSpeaker = false)
         {
-            throw new System.NotImplementedException();
+            IQueryable<Event> query = _context.Events
+                .Include(c => c.Lots)
+                .Include(c => c.SocialNetworks);
+
+            if (includeSpeaker)
+            {
+                query = query
+                .Include(se => se.SpeakerEvents)
+                .ThenInclude(s => s.Speaker);
+            }
+            query = query.OrderByDescending(c => c.DateEvent)
+                .Where(c => c.Id == EventId);
+
+            return await query.FirstOrDefaultAsync();       
         }
 
-        Task<Event[]> IProAgilRepository.GetAllSpeakerByNameAsync(bool includeSpeaker)
+        //Palestrantes
+        public async Task<Speaker> GetSpeakerAsync(int SpeakerId, bool includeEvents = false)
         {
-            throw new System.NotImplementedException();
+            IQueryable<Speaker> query = _context.Speakers
+                .Include(c => c.SocialNetworks);
+
+            if (includeEvents)
+            {
+                query = query
+                .Include(se => se.SpeakerEvents)
+                .ThenInclude(e => e.Event);
+            }
+            query = query.OrderBy(s => s.Name)
+            .Where(s => s.Id == SpeakerId);
+
+            return await query.FirstOrDefaultAsync();       
         }
 
-        Task<Event[]> IProAgilRepository.GetSpeakerAsync(int Speaker, bool includeSpeaker)
+        public async Task<Speaker[]> GetAllSpeakerByNameAsync(string name, bool includeEvents = false)
         {
-            throw new System.NotImplementedException();
-        }
+            IQueryable<Speaker> query = _context.Speakers
+                .Include(c => c.SocialNetworks);
+
+            if (includeEvents)
+            {
+                query = query
+                .Include(se => se.SpeakerEvents)
+                .ThenInclude(e => e.Event);
+            }
+            query = query.Where(s => s.Name.ToLower().Contains(name.ToLower()));
+            return await query.ToArrayAsync();       
+           }
     }
 }
