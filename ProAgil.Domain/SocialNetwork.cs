@@ -11,7 +11,6 @@ namespace ProAgil.Domain
         public Event Events { get; set; }
         public int? SpeakerId{ get; set; }
         public Speaker Spearker { get; set; }
-        public List<SpeakerEvent> SpeakerEvents { get; set; }
 
     }
 }
