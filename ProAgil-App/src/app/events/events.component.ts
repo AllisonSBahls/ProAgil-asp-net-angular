@@ -15,9 +15,7 @@ export class EventsComponent implements OnInit {
   
   set filterList(value: string) {
     this._filterList = value;
-    this.eventFiltered = this.filterList
-      ? this.filterEvents(this.filterList)
-      : this.events;
+    this.eventFiltered = this.filterList ? this.filterEvents(this.filterList) : this.events;
   }
 
   eventFiltered: any = [];
@@ -35,9 +33,8 @@ export class EventsComponent implements OnInit {
 
   filterEvents(filterFor: string): any {
     filterFor = filterFor.toLocaleLowerCase();
-    return this.events.filter(
-      events => events.theme.toLocaleLowerCase().indexOf(filterFor) !== -1
-      );
+    let resultTheme = this.events.filter(events => events.theme.toLocaleLowerCase().indexOf(filterFor) !== -1);
+    return resultTheme;
   }
   
   alternateImage() {

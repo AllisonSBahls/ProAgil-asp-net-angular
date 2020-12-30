@@ -4,10 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using ProAgil.API.Data;
-using ProAgil.API.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using ProAgil.Repository;
 
 namespace ProAgil.API.Controllers
 {
@@ -15,9 +14,9 @@ namespace ProAgil.API.Controllers
     [Route("[controller]")]
     public class EventsController : ControllerBase
     {
-        private readonly DataContext _context;
+        private readonly ProAgilContext _context;
 
-        public EventsController(DataContext context)
+        public EventsController(ProAgilContext context)
         {
             _context = context;
         }
@@ -41,7 +40,7 @@ namespace ProAgil.API.Controllers
         {
             try
             {
-                var results = await _context.Events.FirstOrDefaultAsync(x => x.EventId == id);
+                var results = await _context.Events.FirstOrDefaultAsync(x => x.Id == id);
                 return Ok(results);
                }
             catch (System.Exception)
