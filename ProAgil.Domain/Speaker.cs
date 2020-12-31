@@ -13,6 +13,5 @@ namespace ProAgil.Domain
         //Um Palestrante pode ter muitas redes sociais
         public List<SocialNetwork> SocialNetworks { get; set; }
         public List<SpeakerEvent> SpeakerEvents { get; set; }
-
     }
 }

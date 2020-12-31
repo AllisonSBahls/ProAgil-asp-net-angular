@@ -64,12 +64,12 @@ namespace ProAgil.API.Controllers
             return BadRequest();
         }
 
-        [HttpPut]
-        public async Task<IActionResult> Put(int EventId, Speaker model)
+        [HttpPut("{Id}")]
+        public async Task<IActionResult> Put(int Id, Speaker model)
         {
             try
             {
-                var result = await _repository.GetEventByIdAsync(EventId, false);
+                var result = await _repository.GetEventByIdAsync(Id, false);
                 if(result == null) return NotFound();
 
                 _repository.Update(model);

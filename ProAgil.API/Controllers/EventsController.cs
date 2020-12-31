@@ -78,15 +78,16 @@ namespace ProAgil.API.Controllers
             return BadRequest();
         }
 
-        [HttpPut]
-        public async Task<IActionResult> Put(int EventId, Event model)
+        [HttpPut("{Id}")]
+        public async Task<IActionResult> Put(int Id, Event model)
         {
             try
             {
-                var result = await _repository.GetEventByIdAsync(EventId, false);
+                var result = await _repository.GetEventByIdAsync(Id, false);
                 if(result == null) return NotFound();
-
+                
                 _repository.Update(model);
+
                 if (await _repository.SaveChangeAsync())
                 {
                     return Created($"/events/{model.Id}", model);
@@ -99,7 +100,7 @@ namespace ProAgil.API.Controllers
             return BadRequest();
         }
 
-         [HttpDelete]
+        [HttpDelete]
         public async Task<IActionResult> Delete(int EventId)
         {
             try

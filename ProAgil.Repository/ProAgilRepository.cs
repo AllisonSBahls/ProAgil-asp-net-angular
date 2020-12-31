@@ -12,6 +12,8 @@ namespace ProAgil.Repository
         public ProAgilRepository(ProAgilContext context)
         {
             _context = context;
+            //AsNoTracking diz para não travar o recurso para que ele seja retornado (de forma Geral)
+            _context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         }
 
         //Métodos Gerais
@@ -50,7 +52,8 @@ namespace ProAgil.Repository
                 .ThenInclude(s => s.Speaker);
             }
             
-            query = query.OrderByDescending(c => c.DateEvent);
+            //AsNoTracking diz para não travar o recurso para que ele seja retornado (de forma especifica)
+            query = query.AsNoTracking().OrderByDescending(c => c.DateEvent);
             return await query.ToArrayAsync();
             
         }
@@ -67,7 +70,7 @@ namespace ProAgil.Repository
                 .Include(se => se.SpeakerEvents)
                 .ThenInclude(s => s.Speaker);
             }
-            query = query
+            query = query.AsNoTracking()
             .OrderByDescending(c => c.DateEvent)
             .Where(c => c.Theme.ToLower().Contains(theme.ToLower()));
 
@@ -87,7 +90,7 @@ namespace ProAgil.Repository
                 .Include(se => se.SpeakerEvents)
                 .ThenInclude(s => s.Speaker);
             }
-            query = query.OrderByDescending(c => c.DateEvent)
+            query = query.AsNoTracking().OrderByDescending(c => c.DateEvent)
                 .Where(c => c.Id == EventId);
 
             return await query.FirstOrDefaultAsync();       

@@ -1,5 +1,6 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { Event } from 'src/_models/Event';
+import { EventService } from 'src/_services/event.service';
 
 @Component({
   selector: 'app-events',
@@ -18,20 +19,20 @@ export class EventsComponent implements OnInit {
     this.eventFiltered = this.filterList ? this.filterEvents(this.filterList) : this.events;
   }
 
-  eventFiltered: any = [];
-  events: any = {};
+  eventFiltered: Event[];
+  events: Event[]
   imageWidth = 50;
   imageMarge = 2;
   showImage = false;
 
   
-  constructor(private http: HttpClient) {}
+  constructor(private eventService: EventService) {}
 
   ngOnInit() {
     this.getEvents();
   }
 
-  filterEvents(filterFor: string): any {
+  filterEvents(filterFor: string): Event[] {
     filterFor = filterFor.toLocaleLowerCase();
     let resultTheme = this.events.filter(events => events.theme.toLocaleLowerCase().indexOf(filterFor) !== -1);
     return resultTheme;
@@ -42,9 +43,10 @@ export class EventsComponent implements OnInit {
   }
 
   getEvents() {
-    this.http.get('http://localhost:5000/events').subscribe(
-      (response) => {
-        this.events = response;
+    this.eventService.getAllEvent().subscribe(
+      (_events: Event[]) => {
+        this.events = _events;
+        this.eventFiltered = this.events;
       },
       (error) => {
         console.log(error);
