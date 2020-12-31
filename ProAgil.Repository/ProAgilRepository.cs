@@ -94,7 +94,7 @@ namespace ProAgil.Repository
         }
 
         //Palestrantes
-        public async Task<Speaker> GetSpeakerAsync(int SpeakerId, bool includeEvents = false)
+        public async Task<Speaker> GetSpeakerByIdAsync(int SpeakerId, bool includeEvents = false)
         {
             IQueryable<Speaker> query = _context.Speakers
                 .Include(c => c.SocialNetworks);
