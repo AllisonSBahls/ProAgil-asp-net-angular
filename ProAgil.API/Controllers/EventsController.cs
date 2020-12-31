@@ -26,9 +26,9 @@ namespace ProAgil.API.Controllers
                 var results = await _repository.GetAllEventsAsync(true);
                 return Ok(results);
             }
-            catch (System.Exception)
+            catch (System.Exception e)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, "Error in Data Base");
+                return this.StatusCode(StatusCodes.Status500InternalServerError, "Error in Data Base: " + e.Message);
             }
         }
 
@@ -46,7 +46,7 @@ namespace ProAgil.API.Controllers
             }
         }
 
-        [HttpGet("{theme}")]
+        [HttpGet("theme/{theme}")]
         public async Task<IActionResult> Get(string theme)
         {
             try
@@ -68,7 +68,7 @@ namespace ProAgil.API.Controllers
                 _repository.Add(model);
                 if (await _repository.SaveChangeAsync())
                 {
-                    return Created($"/api/event/{model.Id}", model);
+                    return Created($"/events/{model.Id}", model);
                 }
             }
             catch (System.Exception)
@@ -79,7 +79,7 @@ namespace ProAgil.API.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Post(int EventId, Event model)
+        public async Task<IActionResult> Put(int EventId, Event model)
         {
             try
             {
@@ -89,7 +89,7 @@ namespace ProAgil.API.Controllers
                 _repository.Update(model);
                 if (await _repository.SaveChangeAsync())
                 {
-                    return Created($"/api/event/{model.Id}", model);
+                    return Created($"/events/{model.Id}", model);
                 }
             }
             catch (System.Exception)
