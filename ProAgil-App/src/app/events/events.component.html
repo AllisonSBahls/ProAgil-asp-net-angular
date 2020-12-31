@@ -34,7 +34,7 @@
       <td>{{event.id}}</td>
       <td>{{event.theme }}</td>
       <td>{{event.local}}</td>
-      <td>{{event.dateEvent}}</td>
+      <td>{{event.dateEvent | DateTimeFormatPipe}}</td>
       <td>{{event.totalParticipants}}</td>
       <td>
         <div *ngIf='!event.lots.length'>

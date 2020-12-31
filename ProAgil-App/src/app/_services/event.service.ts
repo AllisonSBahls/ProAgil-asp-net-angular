@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Event } from 'src/_models/Event';
+import { Event } from 'src/app/_models/Event';
 
 //Decorator injectable
 

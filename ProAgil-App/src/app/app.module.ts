@@ -7,12 +7,15 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { EventsComponent } from './events/events.component';
 import { NavComponent } from './nav/nav.component';
+import { DateTimeFormatPipePipe } from './_helps/DateTimeFormatPipe.pipe';
+import { EventService } from './_services/event.service';
 
 @NgModule({
   declarations: [		
     AppComponent,
       EventsComponent,
-      NavComponent
+      NavComponent,
+      DateTimeFormatPipePipe
    ],
   imports: [
     BrowserModule,
@@ -20,7 +23,11 @@ import { NavComponent } from './nav/nav.component';
     HttpClientModule,
     FormsModule
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [
+    EventService
+  ],
+  bootstrap: [
+    AppComponent
+  ]
 })
 export class AppModule { }
