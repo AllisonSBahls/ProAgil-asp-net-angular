@@ -27,10 +27,16 @@ namespace ProAgil.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+    
             services.AddDbContext<ProAgilContext>(option => option.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddScoped<IProAgilRepository, ProAgilRepository>();
             services.AddControllers();
             services.AddCors();
+
+            //Instalado o pacote Microsoft.AspNetCore.Mvc.NewtonsoftJson para correção do erro System.Text.Json.JsonException e depois adicionando ao configure
+            services.AddControllers().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+            
+            services.AddScoped<IProAgilRepository, ProAgilRepository>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

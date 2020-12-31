@@ -52,6 +52,7 @@ namespace ProAgil.Repository
             
             query = query.OrderByDescending(c => c.DateEvent);
             return await query.ToArrayAsync();
+            
         }
 
         public async Task<Event[]> GetAllEventsByThemeAsync(string theme, bool includeSpeaker = false)

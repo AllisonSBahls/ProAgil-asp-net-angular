@@ -1,11 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
 using ProAgil.Repository;
 using ProAgil.Domain;
 
@@ -16,9 +11,9 @@ namespace ProAgil.API.Controllers
     public class EventsController : ControllerBase
     {
         //Injeção de Dependência
-        private readonly ProAgilRepository _repository;
+        private readonly IProAgilRepository _repository;
 
-        public EventsController(ProAgilRepository repository)
+        public EventsController(IProAgilRepository repository)
         {
             _repository = repository;
         }
@@ -37,7 +32,7 @@ namespace ProAgil.API.Controllers
             }
         }
 
-        [HttpGet("{EventId}")]
+        [HttpGet("{Id}")]
         public async Task<IActionResult> Get(int id)
         {
             try
@@ -70,10 +65,10 @@ namespace ProAgil.API.Controllers
         {
             try
             {
-                _repository.Add(model));
+                _repository.Add(model);
                 if (await _repository.SaveChangeAsync())
                 {
-                    return Created($"/api/event/{model.Id}", model)
+                    return Created($"/api/event/{model.Id}", model);
                 }
             }
             catch (System.Exception)
@@ -94,7 +89,7 @@ namespace ProAgil.API.Controllers
                 _repository.Update(model);
                 if (await _repository.SaveChangeAsync())
                 {
-                    return Created($"/api/event/{model.Id}", model));
+                    return Created($"/api/event/{model.Id}", model);
                 }
             }
             catch (System.Exception)
