@@ -1,8 +1,12 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Event } from 'src/app/_models/Event';
 import { EventService } from 'src/app/_services/event.service';
+import { defineLocale } from  'ngx-bootstrap/chronos';
+import { ptBrLocale } from 'ngx-bootstrap/locale';
+import { BsLocaleService } from 'ngx-bootstrap/datepicker';
+defineLocale('pt-br', ptBrLocale);
 
 @Component({
   selector: 'app-events',
@@ -20,7 +24,14 @@ export class EventsComponent implements OnInit {
 
   _filterList: string;
 
-  constructor(private eventService: EventService, private modalService: BsModalService) {}
+  constructor(
+    private eventService: EventService,
+    private modalService: BsModalService,
+    private fb:FormBuilder,
+    private localeService: BsLocaleService
+    ) {
+      this.localeService.use('pt-br')
+    }
 
   get filterList(): string {
     return this._filterList;
@@ -55,14 +66,14 @@ export class EventsComponent implements OnInit {
   }
 
   validation(){
-    this.registerForm = new FormGroup({
-      theme: new FormControl('', [Validators.required, Validators.minLength(4), Validators.maxLength(50)]),
-      local: new FormControl('', Validators.required),
-      dateEvent: new FormControl('', Validators.required),
-      imgUrl: new FormControl(''),
-      phone: new FormControl('', Validators.required),
-      email: new FormControl('', [Validators.required, Validators.email]),
-      totalParticipants: new FormControl('', [Validators.required, Validators.max(120000)]),
+    this.registerForm = this.fb.group({
+      theme: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(50)]],
+      local: ['', Validators.required],
+      dateEvent: ['', Validators.required],
+      imgUrl: [''],
+      phone: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      totalParticipants: ['', [Validators.required, Validators.max(120000)]],
     });
   }
 
