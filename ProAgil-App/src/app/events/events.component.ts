@@ -153,7 +153,7 @@ export class EventsComponent implements OnInit {
   confirmDelete(template: any){
     this.eventService.deleteEvent(this.event.id).subscribe(
       () =>{
-        template.hide();
+        template.hide();  
         this.getEvents();
       }, error =>{
         console.log(error);
