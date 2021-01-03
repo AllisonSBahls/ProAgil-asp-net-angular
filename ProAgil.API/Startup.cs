@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -31,7 +32,8 @@ namespace ProAgil.API
             services.AddDbContext<ProAgilContext>(option => option.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
             services.AddControllers();
             services.AddCors();
-
+            services.AddAutoMapper(typeof(Startup));
+            
             //Instalado o pacote Microsoft.AspNetCore.Mvc.NewtonsoftJson para correção do erro System.Text.Json.JsonException e depois adicionando ao configure
             services.AddControllers().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             
