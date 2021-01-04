@@ -25,6 +25,7 @@ export class EventsComponent implements OnInit {
   registerForm: FormGroup;
   modSave = 'post';
   bodyDeleteEvent = '';
+  title = "ProAgil Eventos";
 
   _filterList: string;
 

@@ -16,17 +16,26 @@ import { EventService } from './_services/event.service';
 
 //Componets
 import { AppComponent } from './app.component';
-import { EventsComponent } from './events/events.component';
 import { NavComponent } from './nav/nav.component';
+import { EventsComponent } from './events/events.component';
+import { SpeakersComponent} from './speakers/speakers.component';
+import { ContactsComponent } from './contacts/contacts.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { TitleComponent } from './_shared/title/title.component';
 
 //Pipe
 import { DateTimeFormatPipePipe } from './_helps/DateTimeFormatPipe.pipe';
 
+
 @NgModule({
-  declarations: [		
+  declarations: [					
     AppComponent,
       EventsComponent,
       NavComponent,
+      SpeakersComponent,
+      ContactsComponent,
+      DashboardComponent,
+      TitleComponent,
       DateTimeFormatPipePipe
    ],
   imports: [
