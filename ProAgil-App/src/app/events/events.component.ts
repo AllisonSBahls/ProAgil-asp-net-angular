@@ -6,7 +6,8 @@ import { EventService } from 'src/app/_services/event.service';
 import { defineLocale } from 'ngx-bootstrap/chronos';
 import { ptBrLocale } from 'ngx-bootstrap/locale';
 import { BsLocaleService } from 'ngx-bootstrap/datepicker';
-import { EventManager } from '@angular/platform-browser';
+import { ToastrService } from 'ngx-toastr';
+
 defineLocale('pt-br', ptBrLocale);
 
 @Component({
@@ -31,7 +32,8 @@ export class EventsComponent implements OnInit {
     private eventService: EventService,
     private modalService: BsModalService,
     private fb: FormBuilder,
-    private localeService: BsLocaleService
+    private localeService: BsLocaleService,
+    private toastr: ToastrService
   ) {
     this.localeService.use('pt-br');
   }
@@ -97,9 +99,11 @@ export class EventsComponent implements OnInit {
             console.log(newEvent);
             template.hide();
             this.getEvents();
+            this.toastr.success('Cadastrado com sucesso');
           },
           (error) => {
             console.log(error);
+            this.toastr.error('Erro ao salvar');
           }
         );
       } else {
@@ -111,9 +115,12 @@ export class EventsComponent implements OnInit {
           () => {
             template.hide();
             this.getEvents();
+            this.toastr.success('Alterado com sucesso');
           },
           (error) => {
             console.log(error);
+            this.toastr.error('Erro ao alterar');
+
           }
         );
       }
@@ -127,7 +134,8 @@ export class EventsComponent implements OnInit {
         this.eventFiltered = this.events;
       },
       (error) => {
-        console.log(error);
+        this.toastr.error('Erro ao tentar carregar eventos');
+
       }
     );
   }
@@ -147,7 +155,7 @@ export class EventsComponent implements OnInit {
   deleteEvent(event: Event, template: any){
     this.openModal(template);
     this.event = event;
-    this.bodyDeleteEvent = `Tem certeza que deseja excluir o Evento: ${event.theme}, Código: ${event.id}`;;
+    this.bodyDeleteEvent = `Tem certeza que deseja excluir o Evento: ${event.theme}, Código: ${event.id}`;
   }
 
   confirmDelete(template: any){
@@ -155,7 +163,9 @@ export class EventsComponent implements OnInit {
       () =>{
         template.hide();  
         this.getEvents();
+        this.toastr.success('Deletado com sucesso');
       }, error =>{
+        this.toastr.error('Erro ao deletar');
         console.log(error);
       }
     )

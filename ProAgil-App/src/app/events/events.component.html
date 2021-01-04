@@ -41,7 +41,7 @@
       <td>{{event.id}}</td>
       <td>{{event.theme }}</td>
       <td>{{event.local}}</td>
-      <td>{{event.dateEvent | DateTimeFormatPipe}}</td>
+      <td>{{event.dateEvent}}</td>
       <td>{{event.totalParticipants}}</td>
       <td>
         <div *ngIf='!event.lots.length'>
@@ -63,7 +63,7 @@
       </td>
     </tr>
   </tbody>
-  <tfoot *ngIf="!events.length">
+  <tfoot *ngIf="!events">
     <tr colspan="7" class="text-center">
       <h4>Nenhum Evento Encontrado</h4>
     </tr>
@@ -117,7 +117,7 @@
             <div class="form-group col-md-4">
               <label>Data e Hora</label>
               <input type="text" class="form-control is-invalid" bsDatepicker
-                [bsConfig]="{ dateInputFormat : 'DD/MM/YYYY hh:mm' }"
+                [bsConfig]="{ dateInputFormat : 'DD/MM/YYYY hh:mm A' }"
                 [ngClass]="{'is-invalid': registerForm.get('dateEvent').errors && registerForm.get('dateEvent').touched}"
                 formControlName="dateEvent" placeholder="">
               <div *ngIf="registerForm.get('dateEvent').hasError('required') && registerForm.get('dateEvent').touched"
